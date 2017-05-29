@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="home">Logo</a>
+            <a class="navbar-brand" href="home"><img src="http://prephardwineasy.com/wp-content/uploads/2017/05/mvm_m-766x431.png" alt="Logo" height="30px"></a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
