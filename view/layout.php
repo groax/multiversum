@@ -68,7 +68,7 @@
                             }
                             if(isset($_SESSION["cart_item"])) {
                                 foreach ($_SESSION["cart_item"] as $item) {
-                                    echo '<li><a href="chart?id='.$item['id'].'">'.ucfirst($item['product']).'</a></li>';
+                                    echo '<li><a href="cart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
                                 }
                             }
                         ?>
@@ -91,17 +91,15 @@
 
 <script type="text/javascript">
     var list = document.querySelector('.dropdown-menu');
-    var PRODUCT = document.getElementById('product');
-    var AMOUNT = document.getElementById('amount');
 
-    function Add(ACTION) {
+    function Add(ID) {
         $.ajax({
             type:"POST",
             url:"./controller/CartController.php",
             data:{
-                "action":ACTION,
-                "product":PRODUCT.value,
-                "amount":AMOUNT.value
+                "id":ID,
+                "action":"add",
+                "amount":1
             }
         }).done(function(data){
             list.innerHTML = data;

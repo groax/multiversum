@@ -34,30 +34,28 @@ class ListController {
 
     public function Add() {
         $data = '';
-        if(!empty($_POST['product'])) {
-            if (!empty($_POST["amount"])) {
-                $article = $this->Sql()->Read("SELECT * FROM products WHERE name ='" . $_POST['product'] . "'");
-                if(isset($article[0]['name'])) {
-                    $itemArray = array($article[0]["name"] => array('id' => $article[0]["id"], 'product' => $article[0]["name"], 'amount' => $_POST["amount"]));
+        if(isset($_POST['id'])) {
+            $article = $this->Sql()->Read("SELECT * FROM articles WHERE id =" . $_POST['id']);
+            if(isset($article[0]['title'])) {
+                $itemArray = array($article[0]["title"] => array('id' => $article[0]["id"], 'title' => $article[0]["title"], 'amount' => $_POST["amount"]));
 
-                    if (!empty($_SESSION["cart_item"])) {
-                        if (in_array($article[0]["name"], $_SESSION["cart_item"])) {
-                            foreach ($_SESSION["cart_item"] as $k => $v) {
-                                if ($article[0]["name"] == $k)
-                                    $_SESSION["cart_item"][$k]["amount"] = $_POST["amount"];
-                            }
-                        } else {
-                            $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"], $itemArray);
+                if (!empty($_SESSION["cart_item"])) {
+                    if (in_array($article[0]["title"], $_SESSION["cart_item"])) {
+                        foreach ($_SESSION["cart_item"] as $k => $v) {
+                            if ($article[0]["title"] == $k)
+                                $_SESSION["cart_item"][$k]["amount"] = $_POST["amount"];
                         }
                     } else {
-                        $_SESSION["cart_item"] = $itemArray;
+                        $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"], $itemArray);
                     }
+                } else {
+                    $_SESSION["cart_item"] = $itemArray;
                 }
             }
         }
         if (isset($_SESSION["cart_item"])) {
             foreach ($_SESSION["cart_item"] as $item) {
-                $data .= '<li><a href="chart?id='.$item['id'].'">'.ucfirst($item['product']).'</a></li>';
+                $data .= '<li><a href="chart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
             }
         }
         echo $data;
@@ -77,24 +75,11 @@ class ListController {
         }
         if(isset($_SESSION["cart_item"])) {
             foreach ($_SESSION["cart_item"] as $item) {
-                $data .= '<a class="list-group-item" onclick="Remove('.$item['id'].')"><b>'.ucfirst($item['product']).'</b><span class="badge">'.$item['amount'].'</span></a>';
+                $data .= '<li><a href="chart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
             }
-            $data .= $this->sendWhatsapp();
         } else {
-            $data = '<a class="list-group-item"><b>Is empty</b></a>';
+            $data = '<li><a>U heeft geen producten in uw winkelwagen.</a></li>';
         }
         echo $data;
-    }
-
-    public function sendWhatsapp() {
-        $data = '';
-        if (isset($_SESSION["cart_item"])) {
-            $data .= '<a href="https://api.whatsapp.com/send?phone=+31644559558&text=*order*%0A%0A';
-            foreach ($_SESSION["cart_item"] as $item) {
-                $data .= ucfirst($item['product']).'%20*'.$item['amount'].'x*%0A';
-            }
-            $data .= '" target="_blank"><img src="http://cdn.downdetector.com/static/uploads/c/300/e556a/whatsapp-messenger.png" alt="Whatsapp" height="50px"></a>';
-        }
-        return $data;
     }
 }

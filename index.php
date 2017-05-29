@@ -24,11 +24,9 @@ $page = new PageController();
 foreach ($page->Sql()->Read("SELECT * FROM pages;") as $item) {
     $page->add($item['pagetag']);
 }
-//
-//$page->add('/');
-//$page->add('/home');
-//$page->add('/order');
-//$page->add('/add');
+
+$page->add('/details');
+$page->add('/cart');
 
 $page->route();
 ?>
