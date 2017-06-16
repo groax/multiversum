@@ -10,16 +10,28 @@
 class Controller {
     public $view;
 
-    function __construct() {
-
+    function __construct()
+    {
     }
 
-    public function Sql() {
-        require_once('web.php');
+    public function html()
+    {
+        return new HtmlHandler();
+    }
+
+    public function Sql()
+    {
+        require_once('./model/web.php');
         return new DbHandler(DB_HOST,DB_DATABASE,DB_USER,DB_PASS);
     }
 
-    public function Page($content) {
+    public function Navbar()
+    {
+        return $this->Sql()->Read("SELECT * FROM pages where pageshow = 1;");
+    }
+
+    public function Page($content)
+    {
         return include("../view/".$content.".php");
     }
 }

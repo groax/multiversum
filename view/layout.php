@@ -12,83 +12,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><?php echo ucfirst($title) ?> | <?php echo TITLE ?></title>
+    <title><?php echo ucfirst($title) ?> | <?php echo ucfirst(TITLE) ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo WEB_DIR ?>css/style.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        /* Remove the navbar's default margin-bottom and rounded borders */
-        .navbar {
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-
-        /* Add a gray background color and some padding to the footer */
-        footer {
-            background-color: #f2f2f2;
-            padding: 25px;
-        }
-
-        hr {
-            /*border-bottom: 1px solid black;*/
-            /*margin-top: -13px;*/
-        }
-    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="home"><img src="http://prephardwineasy.com/wp-content/uploads/2017/05/mvm_m-766x431.png" alt="Logo" height="30px"></a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <?php
-                    foreach ($nav as $n) {
-                        echo '<li><a href="'.$n['pagetag'].'">'.ucfirst($n['pagename']).'</a></li>';
-                    }
-                ?>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-shopping-cart"></span>
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <?php
-                            if(!isset($_SESSION["cart_item"])) {
-                                echo "<li><a>U heeft geen producten in uw winkelwagen.</a></li>";
-                            }
-                            if(isset($_SESSION["cart_item"])) {
-                                foreach ($_SESSION["cart_item"] as $item) {
-                                    echo '<li><a href="cart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none    " id="mySidebar">
+    <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+    <a href="<?php echo WEB_DIR ?>home" class="w3-bar-item w3-button">Home</a>
+    <?php
+        foreach ($nav as $n) {
+            echo '<a href="'. WEB_DIR .$n['pagetag'].'"class="w3-bar-item w3-button">'.ucfirst($n['pagename']).'</a>';
+        }
+    ?>
+</div>
 
-<div class="container">
-    <div class="row">
-        <?php @include($content); ?>
+<!-- Page Content -->
+<div class="w3-teal">
+    <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+    <div class="w3-container">
+        <h1><?php echo ucfirst(TITLE) ?></h1>
     </div>
 </div>
 
-<footer class="container-fluid text-center">
+<div class="w3-container content">
+    <div class="row">
+        <?php include($content); ?>
+    </div>
+</div>
+
+<!--<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">-->
+<!--    <h3 class="w3-bar-item"><a href="/multiversum/home">--><?php //echo ucfirst(TITLE) ?><!--</a></h3>-->
+<!--    --><?php
+//    foreach ($nav as $n) {
+//        echo '<a href="/multiversum/'.$n['pagetag'].'"class="w3-bar-item w3-button">'.ucfirst($n['pagename']).'</a>';
+//    }
+//    ?>
+<!---->
+<!--<!--    --><?php
+////    if(!isset($_SESSION["cart_item"])) {
+////        echo "<li><a>U heeft geen producten in uw winkelwagen.</a></li>";
+////    }
+////    if(isset($_SESSION["cart_item"])) {
+////        foreach ($_SESSION["cart_item"] as $item) {
+////            echo '<li><a href="cart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
+////        }
+////    }
+////    ?>
+<!--</div>-->
+<!---->
+<!---->
+<!--<div style="margin-left:20%">-->
+<!--    <div class="w3-container">-->
+<!--        <div class="row">-->
+<!--            --><?php //@include($content); ?>
+<!--        </div>-->
+<!--</div>-->
+
+<footer class="w3-container w3-bottom w3-teal" style="z-index: 0;">
     <p>Footer Text</p>
 </footer>
-
+</div>
 <script type="text/javascript">
     var list = document.querySelector('.dropdown-menu');
 
@@ -111,6 +101,30 @@
 
         });
     }
+
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+
+    $('img').load(function(){
+        $(this).css('background','none');
+    });
+
+    function myAccFunc() {
+        var x = document.getElementById("demoAcc");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+
+    // Click on the "Jeans" link on page load to open the accordion for demo purposes
+    document.getElementById("myBtn").click();
+
 </script>
 
 </body>

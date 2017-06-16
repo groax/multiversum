@@ -7,26 +7,15 @@
  * Time: 00:51
  */
 
-//function __autoload($className) {
-//    $className = str_replace('..', '', $className);
-//    require_once("controller/".$className.".php");
-//}
-
 session_start();
 
 //unset($_SESSION["cart_item"]);
 
 require_once('controller/Controller.php');
-require_once('controller/DbHandler.php');
-require_once('controller/PageController.php');
-$page = new PageController();
+require_once('controller/Route.php');
+require_once('model/DbHandler.php');
+require_once('model/HtmlHandler.php');
 
-foreach ($page->Sql()->Read("SELECT * FROM pages;") as $item) {
-    $page->add($item['pagetag']);
-}
+$route = new Route();
 
-$page->add('/details');
-$page->add('/cart');
-
-$page->route();
 ?>

@@ -8,6 +8,7 @@
  */
 
 define('TITLE', 'multiversum');
+define('WEB_DIR', '/multiversum/');
 
 define('DB_CONNECTION', 'mysql');
 define('DB_HOST', '127.0.0.1');

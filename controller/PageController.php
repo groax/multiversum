@@ -16,7 +16,7 @@ class PageController extends Controller
     function __construct()
     {
         $this->dB = Controller::Sql();
-
+        require('model/HtmlHandler.php');
     }
 
     public function add($uri)

@@ -7,7 +7,10 @@
  * Time: 01:42
  */
 
-echo $pageContent;
+?>
 
-echo $pageArticles;
+<div class="w3-row">
 
+    <?php echo $data; ?>
+
+</div>
