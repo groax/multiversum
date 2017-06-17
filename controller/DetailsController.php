@@ -16,10 +16,12 @@ class DetailsController extends Controller
 
     public function show($id)
     {
-        $content = './view/details.php';
-        $title = 'details';
+        $sql = Controller::sql()->Read('select * from articles where id='.$id[0].';');
+        $content = Controller::View('Details/show');
+        $title = $sql[0]['title'];
         $nav = Controller::Navbar();
-        $data = $data = Controller::html()->title('home', '12', true);
-        include('./view/layout.php');
+        $data = Controller::html()->title($sql[0]['title'], '12', true);
+        $data .= Controller::html()->details($id[0]);
+        include( Controller::View('layout'));
     }
 }

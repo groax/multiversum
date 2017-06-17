@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none    " id="mySidebar">
+<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none; z-index: 9999;" id="mySidebar">
     <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
     <a href="<?php echo WEB_DIR ?>home" class="w3-bar-item w3-button">Home</a>
     <?php
@@ -34,46 +34,20 @@
 </div>
 
 <!-- Page Content -->
-<div class="w3-teal">
+<div class="w3-teal w3-top" style="z-index: 1;">
     <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
     <div class="w3-container">
         <h1><?php echo ucfirst(TITLE) ?></h1>
     </div>
 </div>
 
+<br><br><br><br><br>
+
 <div class="w3-container content">
     <div class="row">
         <?php include($content); ?>
     </div>
 </div>
-
-<!--<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">-->
-<!--    <h3 class="w3-bar-item"><a href="/multiversum/home">--><?php //echo ucfirst(TITLE) ?><!--</a></h3>-->
-<!--    --><?php
-//    foreach ($nav as $n) {
-//        echo '<a href="/multiversum/'.$n['pagetag'].'"class="w3-bar-item w3-button">'.ucfirst($n['pagename']).'</a>';
-//    }
-//    ?>
-<!---->
-<!--<!--    --><?php
-////    if(!isset($_SESSION["cart_item"])) {
-////        echo "<li><a>U heeft geen producten in uw winkelwagen.</a></li>";
-////    }
-////    if(isset($_SESSION["cart_item"])) {
-////        foreach ($_SESSION["cart_item"] as $item) {
-////            echo '<li><a href="cart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
-////        }
-////    }
-////    ?>
-<!--</div>-->
-<!---->
-<!---->
-<!--<div style="margin-left:20%">-->
-<!--    <div class="w3-container">-->
-<!--        <div class="row">-->
-<!--            --><?php //@include($content); ?>
-<!--        </div>-->
-<!--</div>-->
 
 <footer class="w3-container w3-bottom w3-teal" style="z-index: 0;">
     <p>Footer Text</p>

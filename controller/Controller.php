@@ -34,4 +34,9 @@ class Controller {
     {
         return include("../view/".$content.".php");
     }
+
+    public function View($page)
+    {
+        return './view/'.$page.'.php';
+    }
 }

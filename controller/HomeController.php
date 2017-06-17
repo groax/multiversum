@@ -18,7 +18,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $content = './view/home.php';
+        $content = Controller::View('Home/index');
         $title = 'home';
         $nav = Controller::Navbar();
         $data = Controller::html()->title('home', '12', true);
@@ -31,7 +31,7 @@ class HomeController extends Controller
         $data .= $this->html->article();
 
 
-        include('./view/layout.php');
+        include(Controller::View('layout'));
     }
 
     public function edit($id)

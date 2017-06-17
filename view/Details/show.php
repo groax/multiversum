@@ -7,4 +7,5 @@
  * Time: 14:54
  */
 
+    echo $data;
 ?>
