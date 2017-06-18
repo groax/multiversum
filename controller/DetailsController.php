@@ -20,7 +20,7 @@ class DetailsController extends Controller
         $content = Controller::View('Details/show');
         $title = $sql[0]['title'];
         $nav = Controller::Navbar();
-        $data = Controller::html()->title($sql[0]['title'], '12', true);
+        $data = Controller::html()->title($sql[0]['title'], '12', 2, true, false);
         $data .= Controller::html()->details($id[0]);
         include( Controller::View('layout'));
     }

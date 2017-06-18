@@ -1,15 +1,16 @@
  * {
      box-sizing: border-box;
  }
-.row::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-[class*="col-"] {
-    float: left;
-    padding: 15px;
-}
+/*.row::after {*/
+    /*content: "";*/
+    /*clear: both;*/
+    /*display: table;*/
+/*}*/
+/*[class*="col-"] {*/
+    /*float: left;*/
+    /*padding: 15px;*/
+/*}*/
+
 .col-1 {width: 8.33%;}
 .col-2 {width: 16.66%;}
 .col-3 {width: 25%;}
@@ -48,6 +49,13 @@ html {
 
  .content {
      margin: 20px;
+     /*margin: 20px 10% 0 10%;*/
+     /*padding-right: 15px;*/
+     /*padding-left: 15px;*/
+     /*margin-right: auto;*/
+     /*margin-left: auto;*/
+     /*border: 2px solid red;*/
+
  }
 
  .loading {

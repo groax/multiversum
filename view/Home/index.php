@@ -7,10 +7,6 @@
  * Time: 01:42
  */
 
+if(isset($data)) echo $data;
+
 ?>
-
-<div class="w3-row">
-
-    <?php echo $data; ?>
-
-</div>

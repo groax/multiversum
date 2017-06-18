@@ -13,11 +13,12 @@ class HtmlHandler extends Controller {
     {
     }
 
-    public function title($name, $size=12, $underline=false)
+    public function title($name='title', $size=12, $textSize=1, $underline=false, $bold=false)
     {
         $line = '';
         if($underline==true) $line = '<hr>';
-        return '<div class="w3-col s'.$size.'"><h3>'.ucfirst($name).'</h3>'.$line.'</div>';
+        if($bold==true) $bold = '<b>'; $boldClose = '</b>';
+        return '<div class="col-sm-'.$size.'"><h'.$textSize.'>'.$bold.ucfirst($name).$boldClose.'</h'.$textSize.'>'.$line.'</div>';
     }
 
     public function content($sql)
@@ -26,7 +27,7 @@ class HtmlHandler extends Controller {
         $content = Controller::Sql()->Read($sql);
 
         foreach ($content as $r) {
-            $data .= '<div class="w3-col s' . $r['size'] . ' body">';
+            $data .= '<div class="col-sm-' . $r['size'] . ' body">';
             if ($r['title'])
                 $data .= '<h3>' . $r['title'] . '</h3>';
             if ($r['body'])
@@ -68,32 +69,57 @@ class HtmlHandler extends Controller {
     {
         $data = '';
 
-        $img = 'SELECT * FROM articles 
-            JOIN articles_has_img 
-            ON articles.id=articles_has_img.articles_id
-            JOIN img 
-            ON articles_has_img.img_id=img.id
-            WHERE articles.id = '.$id.';';
+        $img = 'select * from articles 
+            join articles_has_img 
+            on articles.id=articles_has_img.articles_id
+            join img 
+            on articles_has_img.img_id=img.id
+            where articles.id = '.$id.';';
 
-        $detail = Controller::sql()->Read('select * from articlesdetails
-	join articles 
-    on articlesdetails.articles_id=articles.id
-    where articles_id = '.$id.';');
+        $detail = Controller::sql()->Read('select articles.price, articles.quantum, platform.platform, resolutie.resolutie, display, purview, hertz, functions, connections, body, title from articlesdetails
+            join articles 
+            on articlesdetails.articles_id=articles.id
+            
+            join platform
+            on articlesdetails.platform_id=platform.id
+            
+            join resolutie
+            on articlesdetails.resolutie_id=resolutie.id    
+            
+            where articles_id ='.$id.';');
 
-        $data .= '<div class="w3-col s6">';
+        $data .= '<div class="col-sm-6">';
+        $data .= $this->slide($img);
+        $data .= '</div>';
+
+        $data .= $this->title('Beschrijving', '6', 3, false, true);
+
+        $data .= '<div class="col-sm-6">';
         $data .= '<p>'.$detail[0]['body'].'</p>';
         $data .= '</div>';
-        $data .= '<div class="w3-col s6">';
-        $data .= $this->imgCard($img);
-        $data .= '</div>';
-        $data .= '';
-//        $data .= '';
-//        $data .= '';
-//        $data .= '';
-//        $data .= '';
+
+        $data .= $this->title('Specificaties ', '12', 3, false, true);
+
+        $data .= '<div class="col-sm-6">';
+        $data .=  $this->articleTable($detail);
         $data .= '</div>';
 
 
+
+//        $data .= '<div class="w3-col s6">';
+//        $data .= '<p>'.$detail[0]['body'].'</p>';
+//        $data .= '</div>';
+//        $data .= '<div class="w3-col s6">';
+//        $data .= $this->imgCard($img);
+//        $data .= '</div>';
+
+//        $data .= '';
+//        $data .= '';
+//        $data .= '';
+//        $data .= '';
+//        $data .= '';
+//        $data .= '</div>';
+        
         return $data;
     }
 
@@ -104,11 +130,33 @@ class HtmlHandler extends Controller {
 
         foreach ($img as $m)
         {
-            $data .= '<div class="w3-third" style="padding-left: 10px;">';
+            $data .= '<div class="col-sm-3" style="padding-left: 10px;">';
             $data .= '<div class="w3-card-2">';
             $data .= '<img src="'.$m['link'].'" style="width: 100%;">';
             $data .= '</div></div>';
         }
+        return $data;
+    }
+
+    public function articleTable($tables)
+    {
+        $data = '';
+//        $tables = Controller::sql()->Read($sql);
+        $data .= '<table class="w3-table w3-hoverable w3-bordered">';
+
+        $data .= '<tr><th>Prijs</th><td>&euro;'.$tables[0]['price'].'</td></tr>';
+        $data .= '<tr><th>Beschrikbaar</th><td>'.$tables[0]['quantum'].'</td></tr>';
+        $data .= '<tr><th>Geschikt voor</th><td>'.$tables[0]['platform'].'</td></tr>';
+        $data .= '<tr><th>Functies</th><td>'.$tables[0]['functions'].'</td></tr>';
+        $data .= '<tr><th>Aansluitingen VR-bril</th><td>'.$tables[0]['connections'].'</td></tr>';
+        $data .= '<tr><th>Resolutie</th><td>'.$tables[0]['resolutie'].'</td></tr>';
+        if($tables[0]['display'] == 1) { $display = '&#10003;'; } else { $display = '&#10005;'; }
+        $data .= '<tr><th>Eigen display</th><td>'.$display.'</td></tr>';
+        $data .= '<tr><th>Gezichtsveld</th><td>'.$tables[0]['purview'].'°</td></tr>';
+//        $data .= '<tr><th>Prijs</th><td>'.$tables[0]['price'].'</td></tr>';
+
+        $data .= '</table>';
+
         return $data;
     }
 
@@ -118,13 +166,14 @@ class HtmlHandler extends Controller {
         $i=1;
         $slides = Controller::sql()->Read($sql);
 
-        $data .= '<div class="w3-content w3-display-container" style="max-width:800px;">';
+        $data .= '<div class="w3-content w3-display-container" onclick="stopTimer()" style="max-width:800px;">';
         foreach ($slides as $slide)
         {
-            $data .= '<img class="slides " src="'.$slide['link'].'" style="width:100%;">';
+            $data .= $this->img($slide['link'], 'slides', 'width:100%;');
+//            $data .= '<img class="slides " src="'.$slide['link'].'" style="width:100%;">';
         }
 
-        $data .= '<div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">';
+        $data .= '<div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-topmiddle" style="width:100%">';
         $data .= '<div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>';
         $data .= '<div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>';
         foreach ($slides as $slide)
@@ -138,8 +187,8 @@ class HtmlHandler extends Controller {
         return $data;
     }
 
-    public function img($link)
+    public function img($link, $class, $style)
     {
-        return '<img class="loading" src="'.$link.'">';
+        return '<img class="loading '.$class.'" src="'.$link.'" style="'.$style.'">';
     }
 }
