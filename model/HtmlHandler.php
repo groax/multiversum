@@ -112,11 +112,6 @@ class HtmlHandler extends Controller {
         $data .=  $this->articleTable($detail);
         $data .= '</div>';
 
-        $data .= '<div class="col-sm-6"><h3>Bestellen</h3>';
-        $data .= '<label>Hoeveelheid</label><input class="w3-input" id="amount" type="number" min="1"  max="'.$detail[0]['quantum'].'" value="'.$amount.'">';
-        $data .=  '<a onclick="add('.$id.')" class="w3-button w3-teal">In winkelwagen</a>';
-        $data .= '</div>';
-
 //        $data .= '<div class="w3-col s6">';
 //        $data .= '<p>'.$detail[0]['body'].'</p>';
 //        $data .= '</div>';
