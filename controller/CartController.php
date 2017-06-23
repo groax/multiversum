@@ -20,8 +20,12 @@ class CartController extends Controller
 
     function __construct()
     {
-        $this->id = $_POST['id'];
-        $this->amount = $_POST['amount'];
+        if(isset($_POST['amount'])) {
+            $this->id = $_POST['id'];
+            $this->amount = $_POST['amount'];
+        } else {
+            $this->id = $_POST['id'];
+        }
 //        session_start();
     }
 
@@ -35,7 +39,7 @@ class CartController extends Controller
         if(isset($id)) {
             $article = Controller::sql()->Read("SELECT * FROM articles WHERE id =" . $id[0]);
             if(isset($article[0]['title'])) {
-                $itemArray = array($article[0]["title"] => array('id' => $article[0]["id"], 'title' => $article[0]["title"], 'amount' => $amount));
+                $itemArray = array($article[0]["title"] => array('id' => $article[0]["id"], 'title' => $article[0]["title"], 'amount' => $amount, 'image' => $article[0]['image']));
 
                 if (!empty($_SESSION["cart_item"])) {
                     if (in_array($article[0]["title"], $_SESSION["cart_item"])) {
@@ -52,32 +56,44 @@ class CartController extends Controller
             }
         }
         if (isset($_SESSION["cart_item"])) {
-            foreach ($_SESSION["cart_item"] as $item) {
-                $data .= '<li><a href="'.WEB_DIR.'details/show/'.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
+            foreach ($_SESSION["cart_item"] as $cart) {
+                $data .= '<li  class="w3-padding-16">';
+                $data .= '<span onclick="remove('.$cart['id'].')" class="w3-button w3-white w3-xlarge w3-right">×</span>';
+                $data .= '<img src="'.$cart['image'].'" class="w3-left w3-circle w3-margin-right" style="width:50px;">';
+                $data .= '<span class="w3-large"><a href="'.WEB_DIR.'details/show/'.$cart['id'].'">'.ucfirst($cart['title']).'</a></span><br>';
+                $data .= '<span>Hoeveelheid: '.$cart['amount'].'</span>';
+                $data .= '</li>';
             }
         }
         echo $data;
     }
 
-    public function Remove($id)
+    public function Remove()
     {
-        $name = Controller::sql()->Read("SELECT * FROM products WHERE id ='" . $id . "'");
+        $id = $this->id;
+
+        $name = Controller::sql()->Read("SELECT * FROM articles WHERE id ='" . $id . "'");
 
         $data = '';
         if(!empty($_SESSION["cart_item"])) {
             foreach($_SESSION["cart_item"] as $k => $v) {
-                if($name[0]['name'] == $k)
+                if($name[0]['title'] == $k)
                     unset($_SESSION["cart_item"][$k]);
                 if(empty($_SESSION["cart_item"]))
                     unset($_SESSION["cart_item"]);
             }
         }
         if(isset($_SESSION["cart_item"])) {
-            foreach ($_SESSION["cart_item"] as $item) {
-                $data .= '<li><a href="chart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
+            foreach ($_SESSION["cart_item"] as $cart) {
+                $data .= '<li  class="w3-padding-16">';
+                $data .= '<span onclick="remove('.$cart['id'].')" class="w3-button w3-white w3-xlarge w3-right">×</span>';
+                $data .= '<img src="'.$cart['image'].'" class="w3-left w3-circle w3-margin-right" style="width:50px;">';
+                $data .= '<span class="w3-large"><a href="'.WEB_DIR.'details/show/'.$cart['id'].'">'.ucfirst($cart['title']).'</a></span><br>';
+                $data .= '<span>Hoeveelheid: '.$cart['amount'].'</span>';
+                $data .= '</li>';
             }
         } else {
-            $data = '<li><a>U heeft geen producten in uw winkelwagen.</a></li>';
+            $data = '<p>U heeft geen producten in uw winkelwagen.</p>';
         }
         echo $data;
     }

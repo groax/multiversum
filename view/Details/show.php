@@ -93,8 +93,7 @@
         });
     }
 </script>
-
+<!--<pre>-->
 <?php
-print_r($_SESSION["cart_item"]);
-
-?>
+//    print_r($_SESSION["cart_item"]);
+//?>
