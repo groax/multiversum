@@ -22,8 +22,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -45,6 +43,13 @@
     </div>
 </div>
 
+<div class="w3-teal w3-display-topright" style="z-index: 1;">
+    <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+    <div class="w3-container">
+        <h1><?php echo ucfirst(TITLE) ?></h1>
+    </div>
+</div>
+
 <br><br><br><br><br>
 
 <div class="container content">
@@ -58,28 +63,6 @@
 </footer>
 </div>
 <script type="text/javascript">
-    var list = document.querySelector('.dropdown-menu');
-
-    function Add(ID) {
-        $.ajax({
-            type:"POST",
-            url:"./controller/CartController.php",
-            data:{
-                "id":ID,
-                "action":"add",
-                "amount":1
-            }
-        }).done(function(data){
-            list.innerHTML = data;
-            if(!data.error){
-                list.innerHTML = data;
-            } else {
-                list.innerHTML = '<li><a><b>Error</b></a></li>';
-            }
-
-        });
-    }
-
     function w3_open() {
         document.getElementById("mySidebar").style.display = "block";
     }

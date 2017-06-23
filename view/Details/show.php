@@ -24,6 +24,12 @@
 <?php
    if(isset($data)) echo $data;
 ?>
+
+<div class="col-s-6">
+    <div class="error"></div>
+</div>
+
+<br><br>
 <script>
 
     var slideIndex = 1;
@@ -64,4 +70,31 @@
         x[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " w3-white";
     }
+
+    var error = document.querySelector('.error');
+    var amount = document.getElementById('amount');
+    var cart =  document.getElementById('cart');
+
+    function add(ID) {
+        $.ajax({
+            type:"POST",
+            url:"http://localhost/multiversum/cart/add/"+ID,
+            data:{
+                "id":ID,
+                "amount":amount.value
+            }
+        }).done(function(data){
+            cart.innerHTML = data;
+            if(!data.error){
+                cart.innerHTML = data;
+            } else {
+                error.innerHTML = '<li><a><b>Error</b></a></li>';
+            }
+        });
+    }
 </script>
+
+<?php
+print_r($_SESSION["cart_item"]);
+
+?>

@@ -14,7 +14,7 @@ class Route extends Controller
         $url = $_SERVER['REQUEST_URI'];
         $packets = explode('/',$url);
         $this->determineDestination($packets);
-}
+    }
 
     public function determineDestination($packets='')
     {
@@ -29,7 +29,6 @@ class Route extends Controller
 
 //            $params = array_slice($packets, 4);
             $this->sendToDestination($classname, $method, $params);
-
         }
     }
 

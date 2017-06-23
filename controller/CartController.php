@@ -1,49 +1,47 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: moese
- * Date: 25-5-2017
- * Time: 12:00
- */
+//if(isset($_POST['action'])) {
+//    $obj = new CartController();
+//    switch ($_POST['action']) {
+//        case 'add':
+//            $obj->Add();
+//            break;
+//        case 'remove':
+//            $obj->Remove();
+//            break;
+//        default:
+//    }
+//}
 
-if(isset($_POST['action'])) {
-    $obj = new ListController();
-    switch ($_POST['action']) {
-        case 'add':
-            $obj->Add();
-            break;
-        case 'remove':
-            $obj->Remove();
-            break;
-        default:
-    }
-}
+class CartController extends Controller
+{
+    public $id;
+    public $amount;
 
-class ListController {
-
-    function __construct() {
-        session_start();
-    }
-
-    public function Sql() {
-        require_once('web.php');
-        require_once('DbHandler.php');
-        return new DbHandler(DB_HOST,DB_DATABASE,DB_USER,DB_PASS);
+    function __construct()
+    {
+        $this->id = $_POST['id'];
+        $this->amount = $_POST['amount'];
+//        session_start();
     }
 
-    public function Add() {
+    public function Add()
+    {
+
+        $id = $this->id;
+        $amount = $this->amount;
+
         $data = '';
-        if(isset($_POST['id'])) {
-            $article = $this->Sql()->Read("SELECT * FROM articles WHERE id =" . $_POST['id']);
+        if(isset($id)) {
+            $article = Controller::sql()->Read("SELECT * FROM articles WHERE id =" . $id[0]);
             if(isset($article[0]['title'])) {
-                $itemArray = array($article[0]["title"] => array('id' => $article[0]["id"], 'title' => $article[0]["title"], 'amount' => $_POST["amount"]));
+                $itemArray = array($article[0]["title"] => array('id' => $article[0]["id"], 'title' => $article[0]["title"], 'amount' => $amount));
 
                 if (!empty($_SESSION["cart_item"])) {
                     if (in_array($article[0]["title"], $_SESSION["cart_item"])) {
                         foreach ($_SESSION["cart_item"] as $k => $v) {
                             if ($article[0]["title"] == $k)
-                                $_SESSION["cart_item"][$k]["amount"] = $_POST["amount"];
+                                $_SESSION["cart_item"][$k]["amount"] = $amount;
                         }
                     } else {
                         $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"], $itemArray);
@@ -55,14 +53,15 @@ class ListController {
         }
         if (isset($_SESSION["cart_item"])) {
             foreach ($_SESSION["cart_item"] as $item) {
-                $data .= '<li><a href="chart?id='.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
+                $data .= '<li><a href="'.WEB_DIR.'details/show/'.$item['id'].'">'.ucfirst($item['title']).'</a></li>';
             }
         }
         echo $data;
     }
 
-    public function Remove() {
-        $name = $this->Sql()->Read("SELECT * FROM products WHERE id ='" . $_POST['id'] . "'");
+    public function Remove($id)
+    {
+        $name = Controller::sql()->Read("SELECT * FROM products WHERE id ='" . $id . "'");
 
         $data = '';
         if(!empty($_SESSION["cart_item"])) {
