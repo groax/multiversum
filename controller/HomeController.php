@@ -30,7 +30,6 @@ class HomeController extends Controller
             WHERE pagetag = 'home'");
         $data .= $this->html->article();
 
-
         include(Controller::View('layout'));
     }
 
