@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fk.iml" filepath="$PROJECT_DIR$/.idea/fk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/multiversum.iml" filepath="$PROJECT_DIR$/.idea/multiversum.iml" />
     </modules>
   </component>
 </project>
