@@ -7,10 +7,10 @@
  * Time: 4:20 PM
  */
 
-class PayController extends  Controller
+class PayController extends Controller
 {
-
     private $mollie;
+    public $payment;
 
     function __construct()
     {
@@ -20,9 +20,11 @@ class PayController extends  Controller
 
     public function index()
     {
+        $payment = '';
         $content = Controller::View('Pay/index');
-        $title = 'home';
+        $title = 'Betalen';
         $nav = Controller::Navbar();
+        $data = Controller::html()->title('Betalen', '12', 2, true, false);
         include(Controller::View('layout'));
     }
 
@@ -30,12 +32,11 @@ class PayController extends  Controller
     {
         try {
             $mollie = $this->mollie;
-            $payment = $mollie->payments->create(
+            $this->payment = $mollie->payments->create(
                 array(
                     "amount" => 10.00,
                     "description" => "Multiversum betalen",
                     "redirectUrl" => "http://localhost/multiversum/pay/show",
-                    "webhookUrl" => "https://webshop.example.org/mollie-webhook/",
                 )
             );
         }
@@ -44,5 +45,30 @@ class PayController extends  Controller
             $error = "API call failed: " . htmlspecialchars($e->getMessage());
             $error .= " on field " . htmlspecialchars($e->getField());
         }
+        $order_id = $this->payment->id;
+        $this->session($order_id, 'blub');
+        header('location: ' . $this->payment->getPaymentUrl());
+    }
+    public function show()
+    {
+        $data = '';
+
+        $content = Controller::View('Pay/show');
+        $title = 'Betalen';
+        $nav = Controller::Navbar();
+
+        $payment = $this->mollie->payments->get($_SESSION['order_id']);
+
+        if ($payment->isPaid()) {
+            $data = "Payment received.";
+        }
+
+        include(Controller::View('layout'));
+    }
+
+    function session($order_id, $status)
+    {
+        $_SESSION['order_id'] = $order_id;
+        $_SESSION['status'] = $status;
     }
 }

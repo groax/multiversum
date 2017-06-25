@@ -15,7 +15,7 @@ require_once('controller/Controller.php');
 require_once('controller/Route.php');
 require_once('model/DbHandler.php');
 require_once('model/HtmlHandler.php');
-require_once('model/mollie/API/Autoloader.php');
+require_once('vendor\mollie\mollie-api-php\src\Mollie\API\Autoloader.php');
 
 $route = new Route();
 
