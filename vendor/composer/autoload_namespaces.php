@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Mollie' => array($vendorDir . '/mollie/mollie-api-php/src'),
+    'FH\\PostcodeAPI' => array($vendorDir . '/freshheads/postcode-api-client/lib'),
 );

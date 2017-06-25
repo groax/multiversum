@@ -1,5 +1,6 @@
 {
   "require": {
-    "mollie/mollie-api-php": "1.9.*"
+    "mollie/mollie-api-php": "1.9.*",
+    "freshheads/postcode-api-client": "^3.0"
   }
 }
