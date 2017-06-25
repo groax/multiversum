@@ -10,6 +10,8 @@
 define('TITLE', 'multiversum');
 define('WEB_DIR', '/multiversum/');
 
+define('MOLLIE_API', '"test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM"');
+
 define('DB_CONNECTION', 'mysql');
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', 3306);

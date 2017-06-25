@@ -66,6 +66,7 @@
                         echo '<span>Hoeveelheid: '.$cart['amount'].'</span>';
                         echo '</li>';
                     }
+                    echo '<a href="'.WEB_DIR.'pay" class="w3-button w3-teal">Betalen</a>';
                 } else {
                     echo '<p>U heeft geen producten in uw winkelwagen.</p>';
                 }

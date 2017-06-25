@@ -63,6 +63,7 @@ class CartController extends Controller
                 $data .= '<span class="w3-large"><a href="'.WEB_DIR.'details/show/'.$cart['id'].'">'.ucfirst($cart['title']).'</a></span><br>';
                 $data .= '<span>Hoeveelheid: '.$cart['amount'].'</span>';
                 $data .= '</li>';
+                $data .= '<a href="'.WEB_DIR.'pay" class="w3-button w3-teal">Betalen</a>';
             }
         }
         echo $data;
@@ -91,6 +92,7 @@ class CartController extends Controller
                 $data .= '<span class="w3-large"><a href="'.WEB_DIR.'details/show/'.$cart['id'].'">'.ucfirst($cart['title']).'</a></span><br>';
                 $data .= '<span>Hoeveelheid: '.$cart['amount'].'</span>';
                 $data .= '</li>';
+                $data .= '<a href="'.WEB_DIR.'pay" class="w3-button w3-teal">Betalen</a>';
             }
         } else {
             $data = '<p>U heeft geen producten in uw winkelwagen.</p>';
