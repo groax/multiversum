@@ -10,12 +10,30 @@
 class PayController extends Controller
 {
     private $mollie;
-    public $payment;
+    private $payment;
+    public $validation;
 
     function __construct()
     {
         $this->mollie = new Mollie_API_Client;
         $this->mollie->setApiKey("test_Jfgu3TAj2Cmgt3yEmSA2KPQcSeRjjN");
+        $this->validation = new validation();
+    }
+
+    public function check()
+    {
+        $error = '';
+        $val = $this->validation;
+        $val->isText($_POST['firstname'], 'Voornaam')->lenghtMax(10);
+        $val->isText($_POST['lastname'], 'Achternaam')->lenghtMax(10);
+        $val->isNumber($_POST['phone'], 'Telefoon')->lenghtMax(10);
+        $val->email($_POST['email'], 'Email');
+//        var_dump($val);
+
+        foreach ($val->error as $item) {
+            $error .= $item;
+        }
+        echo $error;
     }
 
     public function index()

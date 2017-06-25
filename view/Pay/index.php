@@ -18,44 +18,88 @@
     <br>
     <form>
         <div class="w3-row-padding">
-            <div class="w3-col" style="width:40%">
+            <div class="w3-col" style="width:33%">
                 <label for="firstname">Voornaam</label>
-                <input class="w3-input" type="text" id="firstname">
+                <input form-data="pay" class="w3-input" type="text" id="firstname">
             </div>
 
-            <div class="w3-col" style="width:20%">
+            <div class="w3-col" style="width:33%">
                 <label for="infix">Tussenvoegsel</label>
-                <input class="w3-input" type="text" id="infix">
+                <input form-data="pay" class="w3-input" type="text" id="infix">
             </div>
 
-            <div class="w3-col" style="width:40%">
+            <div class="w3-col" style="width:34%">
                 <label for="lastname">Achternaam</label>
-                <input class="w3-input" type="text" id="lastname">
+                <input form-data="pay" class="w3-input" type="text" id="lastname">
             </div>
 
             <div class="w3-col" style="width:50%">
                 <label for="zipcode">Postcode</label>
-                <input class="w3-input" type="text" id="zipcode">
+                <input form-data="pay" class="w3-input" type="text" id="zipcode">
             </div>
 
             <div class="w3-col" style="width:50%">
                 <label for="houseNumber">Huisnummer</label>
-                <input class="w3-input" type="text" id="houseNumber">
+                <input form-data="pay" class="w3-input" type="text" id="houseNumber">
             </div>
 
             <div class="w3-col" style="width:50%">
                 <label for="phone">Telefoon</label>
-                <input class="w3-input" type="tel" id="phone">
+                <input form-data="pay" class="w3-input" type="text" id="phone">
             </div>
 
             <div class="w3-col" style="width:50%">
                 <label for="email">Email</label>
-                <input class="w3-input" type="email" id="email">
+                <input form-data="pay" class="w3-input" type="text" id="email">
             </div>
         </div>
     </form>
     <br>
-    <a class="w3-button w3-teal" style="margin: 15px;" href="<?php WEB_DIR ?>pay/create">Volgende</a>
-</div>
+
+    <div class="w3-panel w3-red w3-display-container" style="display: none">
+      <span onclick="this.parentElement.style.display='none'"
+            class="w3-button w3-red w3-large w3-display-topright">&times;</span>
+<!--            <h3></h3>-->
+            <p id="error"></p>
+        </div>
+
+        <a class="w3-button w3-teal" style="margin: 15px;" onclick="submitForm('pay')">Volgende</a>
+    </div>
 
 <br>
+
+<script>
+
+    var error =  document.getElementById('error');
+    var data = document.getElementById('data');
+
+    var firstname = document.getElementById('firstname');
+
+    function submitForm(name) {
+        const formData = document.querySelectorAll('[form-data="' + name + '"]');
+        let data = '';
+        for(var i = 0; i < formData.length; i++) {
+            data += formData[i].id + '=' + formData[i].value + '&';
+        }
+
+        data = data.slice(0, -1);
+
+        ajax_post('<?php echo WEB_DIR ?>pay/check', data, responseText => {
+            error.innerHTML = responseText;
+        });
+    }
+
+    function ajax_post(url, data, callback) {
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST", url, true);
+
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        ajax.onreadystatechange = function() {
+            if(ajax.readyState == 4 && ajax.status == 200) {
+                callback(ajax.responseText);
+            }
+        }
+        ajax.send(data);
+    }
+</script>
