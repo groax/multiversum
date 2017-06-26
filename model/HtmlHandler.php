@@ -21,6 +21,21 @@ class HtmlHandler extends Controller {
         return '<div class="col-sm-'.$size.'"><h'.$textSize.'>'.$bold.ucfirst($name).$boldClose.'</h'.$textSize.'>'.$line.'</div>';
     }
 
+    public function alert($title, $content)
+    {
+        $data='';
+
+        $data='<div class="w3-panel w3-red w3-display-container">
+                  <span onclick="this.parentElement.style.display=\'none\'"
+                        class="w3-button w3-red w3-large w3-display-topright">&times;</span>
+                        <h3>'.$title.'</h3>
+                        <p>'.$content.'</p>
+                    </div>
+                </div>';
+
+        return $data;
+    }
+
     public function content($sql)
     {
         $data = '';

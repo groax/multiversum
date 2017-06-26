@@ -56,16 +56,10 @@
     </form>
     <br>
 
-    <div class="w3-panel w3-red w3-display-container" style="display: none">
-      <span onclick="this.parentElement.style.display='none'"
-            class="w3-button w3-red w3-large w3-display-topright">&times;</span>
-<!--            <h3></h3>-->
-            <p id="error"></p>
-        </div>
+    <div class="w3-row-padding" id="error"></div>
 
-        <a class="w3-button w3-teal" style="margin: 15px;" onclick="submitForm('pay')">Volgende</a>
-    </div>
-
+    <a class="w3-button w3-teal" id="check" style="margin: 15px;" onclick="submitForm('pay');document.getElementById('check').style.display='none'"">Controlleer</a>
+</div>
 <br>
 
 <script>
